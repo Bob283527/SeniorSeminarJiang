@@ -20,3 +20,6 @@ The attached CSV/Spreadsheet file is the result of sending out a google form and
 - Create lists for each student so they know what sessions to attend, rooms and times.
 
 
+created student class and put everything in there for now as i deemed filereader to be useless
+creating ranking system based on student submit time
+thinking about how ill implement that
