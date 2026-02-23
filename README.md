@@ -23,3 +23,6 @@ The attached CSV/Spreadsheet file is the result of sending out a google form and
 created student class and put everything in there for now as i deemed filereader to be useless
 creating ranking system based on student submit time
 thinking about how ill implement that
+
+Changed my ranknig to comparing the total seconds between students instead of comparing between hours then minutes then seconds 
+changed my student class deleted some stuff i deeemed useless for that class and fixed syntax.
