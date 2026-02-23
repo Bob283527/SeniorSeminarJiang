@@ -1,56 +1,64 @@
+import java.io.*;
+import java.util.*;
+
 public class Ranker {
-	
-	public void Ranker {
-		//look at the time since its split into 3 parts; hour: minute: second
-		/* 	int[] parts = line.split(":");
-		 * int hour = parts[0]
-		 * int minute = parts[1]
-		 * int second = parts[3]
-		 * then compare with other students if hour == hour of both students move to minutes if minutes are tge same move to seconds
-		 */
-		public int readFile() throws IOException{
-			File file = new File("SrSeminar.csv");
-        
-				Scanner scan = new Scanner(file);
-        
-				if (scan.hasNext()) {
-					scan.nextLine();
-				}
-			private String fileName = "SrSeminar.csv";
-			public void studentsTime(int h, int m, int s) {
-				hours = h;
-				minutes = m;
-				seconds = s;
-			} 
-			public int getHours() {
-				return hours;
-			}
-			public int getMinutes() {
-				return minutes;
-			}
-			public int getSeconds() {
-				return seconds;
-			}
-			int i = 0;
-			while (scan.hasNext() && i < studentArray.size()) {
-				String line = scan.nextLine();
-				int[] parts = line.split(":");
-			
-				int h = parts[0];
-				int m = parts[1];
-				int s = parts[2];
-				studentArray[i] = new studentsTime(h, m, s);
-				i++;
-		}
-	}
-	for (int j = 0; j < studentArray[i]; j++) {
-		int i = 0;
-		if studentArray[i]
-	}
+
+    public ArrayList<Student> readFile() throws IOException {
+
+        ArrayList<Student> studentList = new ArrayList<Student>();
+
+        File file = new File("SrSeminar.csv");
+        Scanner scan = new Scanner(file);
+		scan.nextLine();
+
+        while (scan.hasNextLine()) {
+
+            String line = scan.nextLine();
+            String[] parts = line.split(",");
+
+            String timeString = parts[0].trim();
+            String[] timeParts = timeString.split(":");
+
+            int hour = Integer.parseInt(timeParts[0]);
+            int minute = Integer.parseInt(timeParts[1]);
+            int second = Integer.parseInt(timeParts[2]);
+
+            int totalSeconds = hour * 3600 + minute * 60 + second;
+
+            String email = parts[1].trim();
+
+            int c1 = Integer.parseInt(parts[2].trim());
+            int c2 = Integer.parseInt(parts[3].trim());
+            int c3 = Integer.parseInt(parts[4].trim());
+            int c4 = Integer.parseInt(parts[5].trim());
+            int c5 = Integer.parseInt(parts[6].trim());
+
+            Student student = new Student(totalSeconds, email, c1, c2, c3, c4, c5);
+
+            studentList.add(student);
+        }
+
+        scan.close();
+        return studentList;
+    }
+
+
+    public void sortByTime(ArrayList<Student> students) {
+
+        for (int i = 0; i < students.size() - 1; i++) {
+
+            int minIndex = i;
+
+            for (int j = i + 1; j < students.size(); j++) {
+
+                if (students.get(j).getTime() < students.get(minIndex).getTime()) {
+                    minIndex = j;
+                }
+            }
+
+            Student temp = students.get(i);
+            students.set(i, students.get(minIndex));
+            students.set(minIndex, temp);
+        }
+    }
 }
-
-
-
-
-}
-
