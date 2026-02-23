@@ -19,4 +19,5 @@ The attached CSV/Spreadsheet file is the result of sending out a google form and
 - Generate a schedule for the sessions and speakers, 
 - Create lists for each student so they know what sessions to attend, rooms and times.
 
-
+Changed my ranking plan to instead of comparing hours then minutes then seconds I changed it to convert everything to seconds and them compare 
+changed the student class had too much info in tehre and shouldnt vbe in there
