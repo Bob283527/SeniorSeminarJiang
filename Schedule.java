@@ -22,6 +22,15 @@ public class Schedule {
 		 * 
 		 * theres also 2 slots for each course
 		 */
+		 //need to move the students used to bottom of list though
+		 x = Student.length;
+		 for (i = 0; i < Student.length; i+=16) {
+			j = 0;
+			String[] session = x.substring(0, i);
+			return("Session" + j + ": " + session);
+			j++;
+		}
+		 
 		 
 	}
 }
