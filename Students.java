@@ -1,10 +1,11 @@
 public class Student {
 
-    private int time;          
+    private int time;
     private String email;
     private int[] choices;
 
-    public Student(int submissionTime, String studentEmail, int c1, int c2, int c3, int c4, int c5) {
+    public Student(int submissionTime, String studentEmail,
+                   int c1, int c2, int c3, int c4, int c5) {
 
         time = submissionTime;
         email = studentEmail;
@@ -25,12 +26,12 @@ public class Student {
         return email;
     }
 
-    public int[] getChoices() {
-        return choices;
-    }
-
     public int getChoice(int index) {
         return choices[index];
+    }
+
+    public int[] getChoices() {
+        return choices;
     }
 
     public String toString() {
