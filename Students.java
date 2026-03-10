@@ -1,8 +1,8 @@
 public class Student {
 
-    private int time;
+    private int time;          
     private String email;
-    private int[] choices;
+    private int[] choices;     
 
     public Student(int submissionTime, String studentEmail,
                    int c1, int c2, int c3, int c4, int c5) {
@@ -18,6 +18,7 @@ public class Student {
         choices[4] = c5;
     }
 
+    // getters
     public int getTime() {
         return time;
     }
@@ -34,7 +35,11 @@ public class Student {
         return choices;
     }
 
+    public void removeChoice(int index) {
+        choices[index] = 0;
+    }
+
     public String toString() {
         return email + " | Time: " + time;
     }
-}
+
