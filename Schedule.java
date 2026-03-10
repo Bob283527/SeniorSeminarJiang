@@ -23,15 +23,60 @@ public class Schedule {
 		 * theres also 2 slots for each course
 		 */
 		 //need to move the students used to bottom of list though
-		 x = Student.length;
-		 for (i = 0; i < Student.length; i+=16) {
-			j = 0;
-			String[] session = x.substring(0, i);
-			return("Session" + j + ": " + session);
-			j++;
-		}
-		 
-		 
-	}
-}
+		 //x = Student.length;
+		 //for (i = 0; i < Student.length; i+=16) {
+			//j = 0;
+			//String[] session = x.substring(0, i);
+			//return("Session" + j + ": " + session);
+			//j++;
+		//}
+		import java.util.*;
 
+public class Schedule {
+
+    int COURSES = 18;
+    int SLOTS = 2;
+    int MAX = 16;
+
+    int[][] courseSeats = new int[COURSES][SLOTS];
+
+    public void createSchedule(ArrayList<Student> students) {
+
+        for (int session = 0; session < 5; session++) {
+
+            System.out.println("SESSION " + (session + 1));
+
+            ArrayList<Student> firstChoiceStudents = new ArrayList<>();
+
+            for (Student s : students) {
+
+                boolean placed = false;
+
+                for (int c = 0; c < 5; c++) {
+
+                    int course = s.getChoice(c);
+
+                    if (course == 0) continue;
+
+                    for (int slot = 0; slot < SLOTS; slot++) {
+
+                        if (courseSeats[course-1][slot] < MAX) {
+
+                            courseSeats[course-1][slot]++;
+
+                            System.out.println(s.getEmail() + " -> Course " + course);
+
+                            s.removeChoice(c);
+
+                            if (c == 0)
+                                firstChoiceStudents.add(s);
+
+                            placed = true;
+                            break;
+                        }
+                    }
+
+                    if (placed) break;
+                }
+
+                
