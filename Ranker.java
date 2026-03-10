@@ -9,14 +9,19 @@ public class Ranker {
 
         File file = new File("SrSeminar.csv");
         Scanner scan = new Scanner(file);
-		scan.nextLine();
+
+        scan.nextLine();
 
         while (scan.hasNextLine()) {
 
             String line = scan.nextLine();
             String[] parts = line.split(",");
 
-            String timeString = parts[0].trim();
+            if (parts.length < 7) {
+                continue;
+            }
+
+            String timeString = parts[0];
             String[] timeParts = timeString.split(":");
 
             int hour = Integer.parseInt(timeParts[0]);
@@ -25,13 +30,13 @@ public class Ranker {
 
             int totalSeconds = hour * 3600 + minute * 60 + second;
 
-            String email = parts[1].trim();
+            String email = parts[1];
 
-            int c1 = Integer.parseInt(parts[2].trim());
-            int c2 = Integer.parseInt(parts[3].trim());
-            int c3 = Integer.parseInt(parts[4].trim());
-            int c4 = Integer.parseInt(parts[5].trim());
-            int c5 = Integer.parseInt(parts[6].trim());
+            int c1 = Integer.parseInt(parts[2]);
+            int c2 = Integer.parseInt(parts[3]);
+            int c3 = Integer.parseInt(parts[4]);
+            int c4 = Integer.parseInt(parts[5]);
+            int c5 = Integer.parseInt(parts[6]);
 
             Student student = new Student(totalSeconds, email, c1, c2, c3, c4, c5);
 
@@ -41,7 +46,6 @@ public class Ranker {
         scan.close();
         return studentList;
     }
-
 
     public void sortByTime(ArrayList<Student> students) {
 
