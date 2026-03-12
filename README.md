@@ -26,3 +26,7 @@ thinking about how ill implement that
 
 Changed my ranknig to comparing the total seconds between students instead of comparing between hours then minutes then seconds 
 changed my student class deleted some stuff i deeemed useless for that class and fixed syntax.
+
+made student class compile and run
+ran ranking code with a tester main class woked well
+made SessionList and Schedule class
