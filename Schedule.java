@@ -34,49 +34,42 @@ public class Schedule {
 
 public class Schedule {
 
-    int COURSES = 18;
-    int SLOTS = 2;
-    int MAX = 16;
+    int courses = 18;
+    int slots = 2;
+    int max = 16;
 
-    int[][] courseSeats = new int[COURSES][SLOTS];
+    int[][] courseSeats = new int[courses][slots];
 
     public void createSchedule(ArrayList<Student> students) {
-
         for (int session = 0; session < 5; session++) {
-
             System.out.println("SESSION " + (session + 1));
-
             ArrayList<Student> firstChoiceStudents = new ArrayList<>();
-
             for (Student s : students) {
-
                 boolean placed = false;
-
                 for (int c = 0; c < 5; c++) {
-
                     int course = s.getChoice(c);
-
-                    if (course == 0) continue;
-
+                    if (course == 0){ 
+                    continue;
+				}
                     for (int slot = 0; slot < SLOTS; slot++) {
-
-                        if (courseSeats[course-1][slot] < MAX) {
-
-                            courseSeats[course-1][slot]++;
-
-                            System.out.println(s.getEmail() + " -> Course " + course);
-
+                        if (courseSeats[course-1][slot] < max) {
+                            courseSeats[course-1][slot++];
+                            System.out.println(s.getEmail() + "Course " + course);
                             s.removeChoice(c);
-
-                            if (c == 0)
+                            if (c == 0) {
                                 firstChoiceStudents.add(s);
-
+							}
                             placed = true;
                             break;
                         }
                     }
-
-                    if (placed) break;
-                }
+                    if (placed) {
+						break;
+					}
+					if(!placed) {
+						int minCourse = 0;
+						int maxCourse = 5;
+						
+						
 
                 
