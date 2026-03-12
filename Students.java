@@ -1,11 +1,10 @@
-public class Student {
+public class Students {
 
     private int time;          
     private String email;
     private int[] choices;     
 
-    public Student(int submissionTime, String studentEmail,
-                   int c1, int c2, int c3, int c4, int c5) {
+    public Students(int submissionTime, String studentEmail, int c1, int c2, int c3, int c4, int c5) {
 
         time = submissionTime;
         email = studentEmail;
@@ -42,4 +41,4 @@ public class Student {
     public String toString() {
         return email + " | Time: " + time;
     }
-
+}
