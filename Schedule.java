@@ -195,3 +195,65 @@ public class Schedule {
         // show how many work and how many not work
         printStatistics(students);
     }
+	private int[] calculateCoursePopularity(ArrayList<Student> students) {
+        int[] popularity = new int[courses];
+
+        // first choice worth five point
+        // second choice worth four point
+        // go down from there
+        int[] weights = {5, 4, 3, 2, 1};
+
+        // go through all student and add point to class they want
+        // this tell us which class most popular
+        for (int i = 0; i < students.size(); i++) {
+            Student s = students.get(i);
+            for (int j = 0; j < 5; j++) {
+                int courseID = s.getChoice(j);
+                if (courseID > 0) {
+                    popularity[courseID - 1] += weights[j];
+                }
+            }
+        }
+
+        return popularity;
+    }
+
+    private void assignSecondSlots(int[] popularity) {
+        // find top five class that student most want
+        // only these get run two time
+        int[] topCourses = new int[5];
+        
+        // start with -1 mean nothing there
+        for (int i = 0; i < 5; i++) {
+            topCourses[i] = -1;
+        }
+
+        // look through all class and find best five
+        // this not fancy way but work and me understand it
+        for (int i = 0; i < popularity.length; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (topCourses[j] == -1 || popularity[i] > popularity[topCourses[j]]) {
+                    // move thing over and put new class here
+                    for (int k = 4; k > j; k--) {
+                        topCourses[k] = topCourses[k - 1];
+                    }
+                    topCourses[j] = i;
+                    break;
+                }
+            }
+        }
+
+        // all class get one slot to run
+        // this mean all class happen one time
+        for (int i = 0; i < courses; i++) {
+            courseAssignments[i][0] = 1;  // all class happen once
+        }
+
+        // top five class also get second slot
+        // mean these class happen two time instead one
+        for (int i = 0; i < 5; i++) {
+            if (topCourses[i] != -1) {
+                courseAssignments[topCourses[i]][1] = 1;
+            }
+        }
+
