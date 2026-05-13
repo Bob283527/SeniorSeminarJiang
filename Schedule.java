@@ -148,8 +148,7 @@ public class Schedule {
                             studentDetails[s][studentCount[s]] = detail;
                             studentCount[s]++;
 
-                            System.out.println(student.getEmail() + " -> Course " + courseID + 
-                                             " (Slot " + (slot + 1) + ", Room " + roomNumber + ")");
+                            System.out.println(student.getEmail() + " -> Course " + courseID + " (Slot " + (slot + 1) + ", Room " + roomNumber + ")");
 
                             // remove choice so we not try put them there again
                             student.removeChoice(choiceIndex);
@@ -180,8 +179,7 @@ public class Schedule {
                             studentDetails[s][studentCount[s]] = detail;
                             studentCount[s]++;
 
-                            System.out.println(student.getEmail() + " -> Course " + (minCourse + 1) + 
-                                             " (no pick left) (Slot " + (minSlot + 1) + ", Room " + roomNumber + ")");
+                            System.out.println(student.getEmail() + " -> Course " + (minCourse + 1) + " (no pick left) (Slot " + (minSlot + 1) + ", Room " + roomNumber + ")");
                         }
                     }
                 }
@@ -256,4 +254,47 @@ public class Schedule {
                 courseAssignments[topCourses[i]][1] = 1;
             }
         }
+ 		System.out.println("=== PICK WHICH CLASS RUN TWO TIME ===");
+        System.out.println("These class most wanted by student:");
+        for (int i = 0; i < 5; i++) {
+            if (topCourses[i] != -1) {
+                System.out.println("  Class " + (topCourses[i] + 1) + " (Want score: " +  popularity[topCourses[i]] + ")");
+            }
+        }
+        System.out.println();
+    }
 
+    private int findLeastFilledCourse(int studentIndex) {
+        int minCourse = -1;
+        int minStudents = Integer.MAX_VALUE;
+
+        // go look all class find one with fewest student
+        // so we not cram one class too much
+        for (int i = 0; i < courses; i++) {
+            // skip if student already go this class
+            // student not can take same class two time rule say no
+            boolean alreadyTaken = false;
+            for (int k = 0; k < studentCount[studentIndex]; k++) {
+                if (studentCourses[studentIndex][k] == i + 1) {
+                    alreadyTaken = true;
+                    break;
+                }
+            }
+            if (alreadyTaken) {
+                continue;
+            }
+
+            // find slot for this class that have room
+            // check slot one and slot two
+            for (int slot = 0; slot < slots; slot++) {
+                if (courseAssignments[i][slot] == 1 &&
+                    courseSeats[i][slot] < maxStudentsPerClass &&
+                    courseSeats[i][slot] < minStudents) {
+                    minStudents = courseSeats[i][slot];
+                    minCourse = i;
+                }
+            }
+        }
+
+        return minCourse;
+    }
