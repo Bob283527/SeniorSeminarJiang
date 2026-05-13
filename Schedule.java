@@ -1,6 +1,4 @@
-public class Schedule {
-	
-	public Schedule() {
+
 		/*should i use the organized data from my ranker.java
 		 * to place the students who submitted first until each course in the first session is filled up
 		 * if the course is filed but the student put it as their first chocie then we look towards their second choice
@@ -30,46 +28,59 @@ public class Schedule {
 			//return("Session" + j + ": " + session);
 			//j++;
 		//}
-		import java.util.*;
+import java.util.*;
 
 public class Schedule {
 
-    int courses = 18;
-    int slots = 2;
-    int max = 16;
+    private int courses = 18;
+    private int timeSlots = 5;
+    private int slots = 2;  // max times each course can run
+    private int maxStudentsPerClass = 16;
 
-    int[][] courseSeats = new int[courses][slots];
+    private int[][] courseSeats;  // course and slot get number of student
+    private int[][] courseAssignments;  // course slot get 1 if run, 0 if not run
+    private String[] studentEmails;  // keep track of email
+    private int[][] studentCourses;  // student index get array of course they take
+    private String[][] studentDetails;  // student index get array of "CourseID-TimeSlot-Room"
+    private int[] studentCount;  // track how many class each student have
+
+    public Schedule() {
+        courseSeats = new int[courses][slots];
+        courseAssignments = new int[courses][slots];
+        
+        // make empty box for all course and slot
+        // put zero in all place mean nothing there yet
+        for (int i = 0; i < courses; i++) {
+            for (int j = 0; j < slots; j++) {
+                courseSeats[i][j] = 0;
+                courseAssignments[i][j] = 0;
+            }
+        }
+    }
+
+    public void initializeStudentArrays(ArrayList<Student> students) {
+        // set up array for track student stuff
+        studentEmails = new String[students.size()];
+        studentCourses = new int[students.size()][5];
+        studentDetails = new String[students.size()][5];
+        studentCount = new int[students.size()];
+        
+        // start all counter at zero mean nothing assign yet
+        for (int i = 0; i < students.size(); i++) {
+            studentEmails[i] = students.get(i).getEmail();
+            studentCount[i] = 0;
+            for (int j = 0; j < 5; j++) {
+                studentCourses[i][j] = 0;
+                studentDetails[i][j] = "";
+            }
+        }
+    }
 
     public void createSchedule(ArrayList<Student> students) {
-        for (int session = 0; session < 5; session++) {
-            System.out.println("SESSION " + (session + 1));
-            ArrayList<Student> firstChoiceStudents = new ArrayList<>();
-            for (Student s : students) {
-                boolean placed = false;
-                for (int c = 0; c < 5; c++) {
-                    int course = s.getChoice(c);
-                    if (course == 0){ 
-                    continue;
-				}
-                    for (int slot = 0; slot < SLOTS; slot++) {
-                        if (courseSeats[course-1][slot] < max) {
-                            courseSeats[course-1][slot++];
-                            System.out.println(s.getEmail() + "Course " + course);
-                            s.removeChoice(c);
-                            if (c == 0) {
-                                firstChoiceStudents.add(s);
-							}
-                            placed = true;
-                            break;
-                        }
-                    }
-                    if (placed) {
-						break;
-					}
-					if(!placed) {
-						int minCourse = 0;
-						int maxCourse = 5;
-						
-						
-
-                
+        // set up all the student array first
+        initializeStudentArrays(students);
+        
+        // first find which course most student want
+        // use rank system i make for this
+        int[] coursePopularity = calculateCoursePopularity(students);
+        assignSecondSlots(coursePopularity);
