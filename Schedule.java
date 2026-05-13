@@ -84,3 +84,47 @@ public class Schedule {
         // use rank system i make for this
         int[] coursePopularity = calculateCoursePopularity(students);
         assignSecondSlots(coursePopularity);
+		
+		System.out.println("\n=== PUT STUDENT IN CLASS ===\n");
+
+        // go through all five time slot
+        // student who come first get pick first (student who click form early)
+        for (int timeSlot = 0; timeSlot < timeSlots; timeSlot++) {
+            System.out.println("--- TIME SLOT " + (timeSlot + 1) + " ---");
+            
+            // try put each student in classroom for this time slot
+            // if student get first choice, move them end of line
+            // that way other student get turn at their first want
+            for (int s = 0; s < students.size(); s++) {
+                boolean placed = false;
+                Student student = students.get(s);
+
+                // only put in schedule if student not have five class yet
+                // must have five class no more no less is rule
+                if (studentCount[s] >= 5) {
+                    continue;
+                }
+
+                // try put student in one of five choice they make
+                // go from best choice to worst choice
+                for (int choiceIndex = 0; choiceIndex < 5; choiceIndex++) {
+                    int courseID = student.getChoice(choiceIndex);
+
+                    // skip if choice already used (zero mean gone)
+                    // when student get class we mark choice zero so no use again
+                    if (courseID == 0) {
+                        continue;
+                    }
+
+                    // check if student already take this class before
+                    // student cannot go same class two time that not allowed
+                    boolean alreadyTaken = false;
+                    for (int k = 0; k < studentCount[s]; k++) {
+                        if (studentCourses[s][k] == courseID) {
+                            alreadyTaken = true;
+                            break;
+                        }
+                    }
+                    if (alreadyTaken) {
+                        continue;
+                    }
