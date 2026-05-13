@@ -128,3 +128,70 @@ public class Schedule {
                     if (alreadyTaken) {
                         continue;
                     }
+					 // try put in slot for this class
+                    // class can run two time so check both time
+                    for (int slot = 0; slot < slots; slot++) {
+                        // check class run in this time slot
+                        // also check room not full (max 16 student per room)
+                        if (courseAssignments[courseID - 1][slot] == 1 &&
+                            courseSeats[courseID - 1][slot] < maxStudentsPerClass) {
+
+                            // put student in class
+                            // add number in seat and put in their schedule
+                            courseSeats[courseID - 1][slot]++;
+                            studentCourses[s][studentCount[s]] = courseID;
+                            
+                            // pick room for student
+                            // use course number to say which room maybe not best way
+                            int roomNumber = (courseID % 5) + 1;  
+                            String detail = "Course " + courseID + " - Slot " + (slot + 1) + " - Room " + roomNumber;
+                            studentDetails[s][studentCount[s]] = detail;
+                            studentCount[s]++;
+
+                            System.out.println(student.getEmail() + " -> Course " + courseID + 
+                                             " (Slot " + (slot + 1) + ", Room " + roomNumber + ")");
+
+                            // remove choice so we not try put them there again
+                            student.removeChoice(choiceIndex);
+                            placed = true;
+                            break;
+                        }
+                    }
+
+                    // if student go in class then stop looking
+                    if (placed) {
+                        break;
+                    }
+                }
+
+                // if not go in choice class, put in class with few student
+                // this backup if all choice full up
+                // find class with fewest student and shove them in
+                if (!placed && studentCount[s] < 5) {
+                    int minCourse = findLeastFilledCourse(s);
+                    if (minCourse != -1) {
+                        int minSlot = findAvailableSlot(minCourse);
+                        if (minSlot != -1) {
+                            courseSeats[minCourse][minSlot]++;
+                            studentCourses[s][studentCount[s]] = minCourse + 1;
+                            
+                            int roomNumber = ((minCourse + 1) % 5) + 1;
+                            String detail = "Course " + (minCourse + 1) + " - Slot " + (minSlot + 1) + " - Room " + roomNumber;
+                            studentDetails[s][studentCount[s]] = detail;
+                            studentCount[s]++;
+
+                            System.out.println(student.getEmail() + " -> Course " + (minCourse + 1) + 
+                                             " (no pick left) (Slot " + (minSlot + 1) + ", Room " + roomNumber + ")");
+                        }
+                    }
+                }
+            }
+
+            System.out.println();
+        }
+
+        // show all student where they go
+        printStudentSchedules();
+        // show how many work and how many not work
+        printStatistics(students);
+    }
